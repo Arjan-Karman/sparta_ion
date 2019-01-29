@@ -31,5 +31,5 @@ Qty Value              Device             Parts                                 
 1   RED                LEDCHIPLED_0805    LED2                                        1318244            
 1   SM6T39A            DIODE-SMB          D4                                          9802703            
 1   SS110B             DIODE-SMB          D1                                          1861422            
-2   10k                R-EU_M0805         R20, R23
+2   10k                R-EU_M0805         R20, R23                                    2303654
 3   Diode              PTVS3V3S1UR        D2, D3, D6                                  1829253
