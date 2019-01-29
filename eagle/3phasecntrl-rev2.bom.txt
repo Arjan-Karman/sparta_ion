@@ -5,7 +5,7 @@ Assembly variant:
 Qty Value              Device             Parts                                       Farnell FarnellAlt1
 
 1                      MA07-1             PWM                                         1516283 
-1                      MA06-1             MMUP                                        1516282
+1                      MA06-1             MMUP                                        1516282 /100 pieces use a 7pin instead
 9   1k                 R-EU_M0805         R10, R12, R15, R16 R30, R35, R45, R67, R68  2078954            
 1   2R2                R-EU_M0805         R58                                         2078937            
 1   4.7u/16V           C-EUC0805K         C16                                         1759427            
