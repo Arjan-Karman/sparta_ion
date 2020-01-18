@@ -932,7 +932,7 @@ int main(void){
 			pwm_freewheel();
 			should_freewheel = true;
 			status_set(STAT_OVER_VOLTAGE);
-		}else if (ad_voltage < 1800){ //About 19 volts.
+		}else if (ad_voltage < 800){ //lowered the cutoff voltage
 			//Freewheel as fast as possible.
 			pwm_freewheel();
 			should_freewheel = true;
@@ -1089,10 +1089,10 @@ int main(void){
 
 						if (throttle > 5){
 							//Voltage limits
-							if (ad_voltage < 1950){
+							if (ad_voltage < 1050){
 								pwm_less(slope_throttle*2);
 							}
-							if (ad_voltage < 1900){
+							if (ad_voltage < 1000){
 								pwm_less(slope_throttle*2);
 							}
 
@@ -1176,10 +1176,10 @@ int main(void){
 						if ((pedal_signal > 15) && strain_cnt){
 							//Same control loop as in throttle:
 							//Voltage limits
-							if (ad_voltage < 1950){
+							if (ad_voltage < 1050){
 								pwm_less(slope_throttle*2);
 							}
-							if (ad_voltage < 1900){
+							if (ad_voltage < 1000){
 								pwm_less(slope_throttle*2);
 							}
 
@@ -1331,12 +1331,13 @@ int main(void){
 
 
 			//Startup from standstill
-			if (throttle && (speed == 0)){
+			/*if (throttle && (speed == 0)){
 				force_commute = true;
 				//pwm_less(20);
 			}else{
 				force_commute = false;
 			}
+			*/
 
 			if (!motor.mode){
 				pwm_less(200);
