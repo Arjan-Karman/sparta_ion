@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdint.h>
 
 
@@ -50,7 +50,7 @@ struct termstate_s{
 termstate_s user_input;
 
 //Name of the uart interface we'll use
-char* ifname = "/dev/ttyS41";
+char* ifname = "/dev/tty.usbserial-AL03MT5W";
 
 
 #define BOOT_WAIT_REQ	0
@@ -218,7 +218,7 @@ void parse_userinput(uint8_t *buf){
 
 
 		//Opening HEX file
-		if (hexfile_open(&filefw,"firmware/motor.hex")){
+		if (hexfile_open(&filefw,"motor.hex")){
 			printf("Opened MOTOR firmware file. Parsing:\n");
 			if (hexfile_process(&filefw)){
 				bootstate.size = filefw.binary_size;
@@ -227,7 +227,7 @@ void parse_userinput(uint8_t *buf){
 				app_load_firmware(bootstate.address);
 			}else{
 				printf("Invalid hex file.\n");
-				return 0;
+				return;
 			}
 		}else{
 			printf("Unable to find hex file.\n");
@@ -236,7 +236,7 @@ void parse_userinput(uint8_t *buf){
 		return;
 	}else if (strcmp(input,"motorhex") == 0){
 		//Opening HEX file
-		if (hexfile_open(&filefw,"firmware/motor.hex")){
+		if (hexfile_open(&filefw,"motor.hex")){
 			printf("Opened MOTOR firmware file. Parsing:\n");
 			if (hexfile_process(&filefw)){
 				bootstate.size = filefw.binary_size;
@@ -245,7 +245,7 @@ void parse_userinput(uint8_t *buf){
 				//app_load_firmware(bootstate.address);
 			}else{
 				printf("Invalid hex file.\n");
-				return 0;
+				return;
 			}
 		}else{
 			printf("Unable to find hex file.\n");
@@ -496,18 +496,6 @@ void select_term(void){
 	}
 }
 
-void app_retry_chunk(void){
-	//Wrap 64 bytes back:
-	if (bootstate.offset >= 64){
-		bootstate.offset-= 64;
-		bootstate.todo += 64;
-		bootstate.firmwareoffs = (bootstate.block*256) + bootstate.offset;
-		printf_clr(CLR_YELLOW,"Retrying at %8lu in block %u. Remaining: %8lu/%lu\n",bootstate.offset,bootstate.block,bootstate.todo,bootstate.size);
-		app_write_nextchunk();
-	}
-}
-
-
 void app_write_nextchunk(void){
 	printf("Writing at %8lu in block %u. Remaining: %8lu/%lu\n",bootstate.offset,bootstate.block,bootstate.todo,bootstate.size);
 	if (bootstate.todo >= 64){
@@ -534,6 +522,16 @@ void app_write_nextchunk(void){
 	bootstate.firmwareoffs = (bootstate.block*256) + bootstate.offset;
 }
 
+void app_retry_chunk(void){
+	//Wrap 64 bytes back:
+	if (bootstate.offset >= 64){
+		bootstate.offset-= 64;
+		bootstate.todo += 64;
+		bootstate.firmwareoffs = (bootstate.block*256) + bootstate.offset;
+		printf_clr(CLR_YELLOW,"Retrying at %8lu in block %u. Remaining: %8lu/%lu\n",bootstate.offset,bootstate.block,bootstate.todo,bootstate.size);
+		app_write_nextchunk();
+	}
+}
 
 //Where the response should go
 net_error_e app_handlemessage(uint8_t* data,msg_info_t* info){
