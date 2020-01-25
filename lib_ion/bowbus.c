@@ -80,6 +80,7 @@ void bus_init(bowbus_net_s* bus){
 	wait_for_last_char = false;
 	display.function_val2 = 9;
 	display.function_val3 = 1;
+	//display.function_val5 = 0;//will this set straingain on startup?//A
 }
 
 /*

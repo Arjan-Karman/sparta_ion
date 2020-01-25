@@ -932,7 +932,7 @@ int main(void){
 			pwm_freewheel();
 			should_freewheel = true;
 			status_set(STAT_OVER_VOLTAGE);
-		}else if (ad_voltage < 800){ //lowered the cutoff voltage
+		}else if (ad_voltage < 1500){ //Around 16.5V?
 			//Freewheel as fast as possible.
 			pwm_freewheel();
 			should_freewheel = true;
@@ -1089,10 +1089,10 @@ int main(void){
 
 						if (throttle > 5){
 							//Voltage limits
-							if (ad_voltage < 1050){
+							if (ad_voltage < 1550){
 								pwm_less(slope_throttle*2);
 							}
-							if (ad_voltage < 1000){
+							if (ad_voltage < 1525){
 								pwm_less(slope_throttle*2);
 							}
 
@@ -1176,10 +1176,10 @@ int main(void){
 						if ((pedal_signal > 15) && strain_cnt){
 							//Same control loop as in throttle:
 							//Voltage limits
-							if (ad_voltage < 1050){
+							if (ad_voltage < 1550){
 								pwm_less(slope_throttle*2);
 							}
-							if (ad_voltage < 1000){
+							if (ad_voltage < 1525){
 								pwm_less(slope_throttle*2);
 							}
 
@@ -1484,7 +1484,7 @@ int main(void){
 					display.value3 = strain_max;// ad_strain_av - 2000;
 
 					//Load the strain gain value:
-					strain_gain = display.function_val5+1;
+					strain_gain = display.function_val5 +1;
 					#endif
 
 					display.value4 = pwm;
